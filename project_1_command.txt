@@ -1,0 +1,193 @@
+clone the git repository then unzip using "unzip file name"(this unzip a file within the directory).
+
+then after unzip moved the unziped file to "hdfs dfs -put file-name /user/maria_dev/project_1"
+
+create database project1;(for creating database )
+use project1;(for work in the database)
+
+
+
+#create table
+
+	CREATE TABLE movies (movieId int, title string, genres varchar(200))
+	row format delimited
+	fields terminated by ',';
+
+	CREATE TABLE ratings (userId int, movieId int, rating float,time_stamp varchar(40))
+	row format delimited
+	fields terminated by ',';
+
+	CREATE TABLE tags (userId int, movieId int,tag varchar(40), time_stamp varchar(200))
+	row format delimited
+	fields terminated by ',';
+
+	CREATE TABLE links (movieId int, imdbId int, tmdbId int)
+	row format delimited
+	fields terminated by ',';
+
+#load data into table
+
+	LOAD DATA INPATH '/user/maria_dev/project_1/movies.csv'
+	INTO TABLE project1.movies;
+
+	LOAD DATA INPATH '/user/maria_dev/project_1/ratings.csv'
+	INTO TABLE project1.ratings;
+
+	LOAD DATA INPATH '/user/maria_dev/project_1/tags.csv'
+	INTO TABLE project1.tags;
+	
+	LOAD DATA INPATH '/user/maria_dev/project_1/links.csv'
+	INTO TABLE project1.links;
+
+
+
+01. first 5 entries from movies table
+	
+select * from movies limit 5;
+
+02. number of unique movies
+
+select distinct title as movies_name from movies;
+select count(distinct title) as movies_name from movies;
+
+03. summary of ratings data
+
+desc ratings;
+select min(rating),max(rating),avg(rating) from ratings;
+
+04. minimum rating given to a movie
+
+	//SELECT m.title, r.rating, r.userId
+	//FROM movies as m
+	//INNER JOIN ratings as r ON m.movieId = r.movieId;
+
+	//SELECT m.title, min(r.rating) AS rating, r.userId
+	//FROM movies as m
+	//INNER JOIN ratings as r ON m.movieId = r.movieId
+	//GROUP BY title,userId,rating;
+
+	//SELECT m.title, min(r.rating) AS rating, r.userId
+	//FROM movies as m
+	//INNER JOIN ratings as r ON m.movieId = r.movieId
+	//GROUP BY title,userId,rating;
+
+	//SELECT m.title, min(r.rating) AS rating
+	//FROM movies as m
+	//INNER JOIN ratings as r ON m.movieId = r.movieId
+	//group by title,rating;
+
+SELECT m.title,r.rating 
+FROM movies as m
+INNER JOIN ratings as r ON m.movieId = r.movieId
+where r.rating IN (select min(rating) from ratings)
+group by title,rating;
+
+SELECT m.title,r.rating 
+FROM movies as m
+INNER JOIN ratings as r ON m.movieId = r.movieId
+where r.rating IN (select min(rating) from ratings where rating=1.0)
+group by title,rating;
+
+05. maximum rating given to a movie
+
+SELECT m.title,r.rating 
+FROM movies as m
+INNER JOIN ratings as r ON m.movieId = r.movieId
+where r.rating IN (select max(rating) from ratings)
+group by title,rating;
+
+06. is any row null in tags
+
+
+select count(tag) from tags where tag='NULL' or time_stamp='NULL' or userId='NULL' or movieId='NULL';
+
+07. number of unique tags 
+
+select count(distinct userId,movieId,tag,time_stamp) from tags;
+
+08. drop null rows from tags and create another table of the resulting rows
+
+create table no_null_tags AS select * from tags where movieid IS NOT NULL AND                                                                                     
+userid IS NOT NULL AND                                                                                                                                            
+tag IS NOT NULL AND                                                                                                                                               
+time_stamp IS NOT NULL; 
+
+09. filtering to get the list of drama movies
+
+SELECT * FROM movies where genres RLIKE 'Drama';
+
+10. total number of drama movies
+
+ SELECT COUNT(*) FROM movies where genres RLIKE "Drama";
+
+11. filtering to get the list of comedy movies
+
+SELECT * FROM movies where genres RLIKE 'comedy';
+
+12. total no. of comedy movies
+
+SELECT COUNT(*) FROM movies where genres RLIKE "comedy";
+
+13. search movie id by tag search
+
+select movieId,tag from tags group by tag,movieId;
+select movieid,tag from tags where tag='Disney' limit 5; 
+
+14. displays first 5 data from ratings table
+
+select * from ratings limit 5;
+
+15. merging two tables movies and ratings into a new table without the "timestamp" column from the ratings table.
+
+create table movie_rating 
+as select m.movieId,m.title,m.genres,r.rating,r.userId from movies as m, ratings as r 
+where r.movieId = m.movieId;
+
+16. display high rated movies (rating > 4)
+
+SELECT m.title,r.rating 
+FROM movies as m
+INNER JOIN ratings as r ON m.movieId = r.movieId
+where r.rating IN (select rating from ratings where rating >4.0)
+group by title,rating;
+
+17. display low rated movies (rating < 4)
+
+SELECT m.title,r.rating 
+FROM movies as m
+INNER JOIN ratings as r ON m.movieId = r.movieId
+where r.rating IN (select rating from ratings where rating >4.0)
+group by title,rating;
+
+18. total number of unique movie genres
+
+select count(distinct genres) from movies;
+
+19. top 25 most rated movies
+
+SELECT m.title,r.rating 
+FROM movies as m
+INNER JOIN ratings as r ON m.movieId = r.movieId
+where r.rating IN (select max(rating) from ratings )
+group by title,rating limit 25;
+
+20. slicing out columns to display only title and genres columns from movies table
+
+SELECT title ,genres FROM movies;
+
+21. extract year from title of the movie
+
+
+select substr(split(title, ' \\(')[1],1,4) from movies limit 5;
+
+22. count how many times each of genres occur
+
+SELECT genres,count(1) as x FROM movies GROUP BY genres ORDER BY x;
+
+23. Which movie received the highest number of ratings?
+
+select m.title, count(r.movieId) from movies m, ratings r              
+where m.movieId=r.movieId group by r.movieId,m.title limit 10; 
+
+
+

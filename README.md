@@ -1,4 +1,3 @@
-"this is repository for project_1 which is done using hive"
 # Analyze MovieLens data
 
 ## Project Description
@@ -51,23 +50,38 @@ Performing the above action you are enter to VM CLI then do the following comman
 
 * Create a folder in local VM using command "mkdir folder_name"
 * In this folder clone the git repository from where we pull the dataset using command "git clone 'git repository link' "
-* All dataet are in a zip file we have to unzip it using command "unzip file_name" (N.B: if you are unzip in the current file ) 
-* After unzip all the file create a folder in hdfs using command which is little bit difference before we tried while creating folder is "hdfs dfs -mkdir folder_name" (By default this folder created in the path user/maria_dev/ )
-* 
+* All dataet are in a zip file we have to unzip it using command "unzip file_name" (N.B: if you are unzip in the current file ) .
+* After unzip all the file create a folder in hdfs using command which is little bit difference before we tried while creating folder is "hdfs dfs -mkdir folder_name" (By default this folder created in the path user/maria_dev/ ) and copy all file to the hdfs folder by ""hdfs dfs -put file-name /user/maria_dev/folder_name".
+* To open HiveQL terminal we have have to give command "Hive".
+* Before performing all the above action try to check whether your Ambari which is management platform for hadoop started all services or not.
+* In hive terminal ,check database and if not create one and use the database using following command and after creating database create tables and load data from the folder in hdfs to the respected table and perform analysis using the query which are mention the txt file "project_1_command.txt" 
 
-> Be sure to include BOTH Windows and Unix command  
-> Be sure to mention if the commands only work on a specific platform (eg. AWS, GCP)
+### For creating database  
+create database project1;
 
-- All the `code` required to get started
-- Images of what it should look like
+### For work in the database
+use project1;
+
+
+### create table
+
+	CREATE TABLE movies (movieId int, title string, genres varchar(200))
+	row format delimited
+	fields terminated by ',';
+
+### load data into table
+
+	LOAD DATA INPATH '/user/maria_dev/project_1/movies.csv'
+	INTO TABLE project1.movies;
+
+The above Query are for creating table and load data in it,after loading data to the table all data from the hdfs forlder are automatically removed i.e they are now loaded in the respective tables. 
+
 
 ## Usage
 
-> Here, you instruct other people on how to use your project after they’ve installed it. This would also be a good place to include screenshots of your project in action.
+>Using this project any one can perform analysis with the movielens dataset
 
 
-## License
 
-This project uses the following license: [<license_name>](<link>).
 
 

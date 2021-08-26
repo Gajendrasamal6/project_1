@@ -8,36 +8,36 @@ I set up a standalone single node cluster in Hadoop to utilize YARN and HDFS to 
 * Hadoop - version 2.7.3.2.6.5.0-292
 * HDFS - version 2.7.3.2.6.5.0-292
 * Hive - version 2.6.5.0-292
-* Git
+* Git -version 2.32.0.windows.1
 
 ## Features
 
 List of features ready and TODOs for future development
 using this project some query are solved using hiveQL ,following questions are listed below:
 
-* 01. first 5 entries from movies table
-* 02. number of unique movies
-* 03. summary of ratings data
-* 04. minimum rating given to a movie
-* 05. maximum rating given to a movie
-* 06. is any row null in tags
-* 07. number of unique tags 
-* 08. drop null rows from tags and create another table of the resulting rows
-* 09. filtering to get the list of drama movies
-* 10. total number of drama movies
-* 11. filtering to get the list of comedy movies
-* 12. total no. of comedy movies
-* 13. search movie id by tag search
-* 14. displays first 5 data from ratings table
-* 15. merging two tables movies and ratings into a new table without the "timestamp" column from the ratings table.
-* 16. display high rated movies (rating > 4)
-* 17. display low rated movies (rating < 4)
-* 18. total number of unique movie genres
-* 19. top 25 most rated movies
-* 20. slicing out columns to display only title and genres columns from movies table
-* 21. extract year from title of the movie
-* 22. count how many times each of genres occur
-* 23. Which movie received the highest number of ratings?
+ 01. first 5 entries from movies table
+ 02. number of unique movies
+ 03. summary of ratings data
+ 04. minimum rating given to a movie
+ 05. maximum rating given to a movie
+ 06. is any row null in tags
+ 07. number of unique tags 
+ 08. drop null rows from tags and create another table of the resulting rows
+ 09. filtering to get the list of drama movies
+ 10. total number of drama movies
+ 11. filtering to get the list of comedy movies
+ 12. total no. of comedy movies
+ 13. search movie id by tag search
+ 14. displays first 5 data from ratings table
+ 15. merging two tables movies and ratings into a new table without the "timestamp" column from the ratings table.
+ 16. display high rated movies (rating > 4)
+ 17. display low rated movies (rating < 4)
+ 18. total number of unique movie genres
+ 19. top 25 most rated movies
+ 20. slicing out columns to display only title and genres columns from movies table
+ 21. extract year from title of the movie
+ 22. count how many times each of genres occur
+ 23. Which movie received the highest number of ratings?
 
 
 
@@ -58,6 +58,7 @@ Performing the above action you are enter to VM CLI then do the following comman
 
 ### For creating database  
 create database project1;
+(#"project1" is the database name here)
 
 ### For work in the database
 use project1;
@@ -74,7 +75,7 @@ use project1;
 	LOAD DATA INPATH '/user/maria_dev/project_1/movies.csv'
 	INTO TABLE project1.movies;
 
-The above Query are for creating table and load data in it,after loading data to the table all data from the hdfs forlder are automatically removed i.e they are now loaded in the respective tables. 
+The above Query are for creating table and load data in it,after loading data to the table all data from the hdfs folder are automatically removed i.e they are now loaded in the respective tables. 
 
 
 ## Usage

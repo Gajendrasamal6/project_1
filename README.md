@@ -9,11 +9,12 @@ I set up a standalone single node cluster in Hadoop to utilize YARN and HDFS to 
 * Hadoop - version 2.7.3.2.6.5.0-292
 * HDFS - version 2.7.3.2.6.5.0-292
 * Hive - version 2.6.5.0-292
+* Git
 
 ## Features
 
 List of features ready and TODOs for future development
-* using this project some query are solved using hiveQL following query are listed below:
+using this project some query are solved using hiveQL ,following questions are listed below:
 
 * 01. first 5 entries from movies table
 * 02. number of unique movies
@@ -43,8 +44,16 @@ List of features ready and TODOs for future development
 
 ## Getting Started
    
-(include git clone command)
-(include all environment setup steps)
+
+To start this project user need to install sandbox-Hortonworks in virtual machine.After installing the VM start the VM then put the following command in Git bash then connect to VM using SSH command "ssh maria_dev@sandbox-hdp.hortonworks.com -p 2222" after this you need to put the password the default password for USER maria_dev is "maria_dev"
+
+Performing the above action you are enter to VM CLI then do the following command which are listed below for the project.
+
+* Create a folder in local VM using command "mkdir folder_name"
+* In this folder clone the git repository from where we pull the dataset using command "git clone 'git repository link' "
+* All dataet are in a zip file we have to unzip it using command "unzip file_name" (N.B: if you are unzip in the current file ) 
+* After unzip all the file create a folder in hdfs using command which is little bit difference before we tried while creating folder is "hdfs dfs -mkdir folder_name" (By default this folder created in the path user/maria_dev/ )
+* 
 
 > Be sure to include BOTH Windows and Unix command  
 > Be sure to mention if the commands only work on a specific platform (eg. AWS, GCP)
@@ -56,9 +65,6 @@ List of features ready and TODOs for future development
 
 > Here, you instruct other people on how to use your project after they’ve installed it. This would also be a good place to include screenshots of your project in action.
 
-## Contributors
-
-> Here list the people who have contributed to this project. (ignore this section, if its a solo project)
 
 ## License
 
